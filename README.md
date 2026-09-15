@@ -192,10 +192,15 @@ Base URL: `/api` · Formats: `application/json` · Authorization: `Bearer <JWT>`
 ## 6. Progress Calculation Formula
 
 For group **$G$** and assignment **$A$**:
-- Let $E$ = total number of active enrolled members in group $G$.
-- Let $C$ = number of members in $E$ with a confirmed submission for assignment $A$.
+- Let **$E$** = total number of active enrolled members in group $G$.
+- Let **$C$** = number of members in $E$ with a confirmed submission for assignment $A$.
 
-$$\text{Group Progress} = \begin{cases} \left(\dfrac{C}{E}\right) \times 100\% & \text{if } E > 0 \\ \text{N/A} & \text{if } E = 0 \end{cases}$$
+$$
+\text{Group Progress (\%)} = \left( \frac{C}{E} \right) \times 100
+$$
+
+- **When $E > 0$**: $\text{Group Progress} = \left(\frac{C}{E}\right) \times 100\%$
+- **When $E = 0$**: Progress is displayed as **N/A** (avoids division by zero).
 
 ### Progress States
 - **0%**: None confirmed.
