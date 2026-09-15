@@ -26,7 +26,7 @@ Candidate: [Your Full Name]
 Task: Full Stack Intern Technical Task (Joineazy)
 
 1. GitHub Repository Link:
-   https://github.com/[your-username]/joineazy
+   https://github.com/Harsh9945/Assignment-Management
    (Ensure this repository is set to PUBLIC so the evaluator has immediate access)
 
 2. Working Demo Video Link:

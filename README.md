@@ -214,9 +214,10 @@ $$\text{Group Progress} = \begin{cases} \left(\dfrac{C}{E}\right) \times 100\% &
 
 ### Method 1: One-Command Docker Setup (Recommended)
 
-1. Clone or navigate to the repository directory:
+1. Clone and navigate to the repository directory:
    ```bash
-   cd d:/joineazy
+   git clone https://github.com/Harsh9945/Assignment-Management.git
+   cd Assignment-Management
    ```
 2. Copy environment file:
    ```bash
