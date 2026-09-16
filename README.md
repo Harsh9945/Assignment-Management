@@ -1,4 +1,4 @@
-# Joineazy — Student, Group & Assignment Management System
+# EduFlow — Student, Group & Assignment Management System
 
 **Version 2.0 — MVP-Scoped Edition**  
 *Target Stack: React.js (Vite) + Tailwind CSS · Node.js + Express · PostgreSQL 16 · Docker Compose*
@@ -7,7 +7,7 @@
 
 ## 1. Project Overview & Objective
 
-Joineazy is a full-stack, role-based academic management system designed to streamline student collaboration, assignment tracking, and external coursework submissions. It enforces strict server-side role boundaries between **Students** and **Instructors (Admins)**.
+EduFlow is a full-stack, role-based academic management system designed to streamline student collaboration, assignment tracking, and external coursework submissions. It enforces strict server-side role boundaries between **Students** and **Instructors (Admins)**.
 
 Key problems solved:
 - **Group Isolation & Collaboration**: Enforces a strict one-active-group-per-student invariant while allowing group owners to search and direct-add peers without cumbersome multi-state invitations (Decision D-1).
@@ -318,11 +318,11 @@ The database comes pre-seeded with accounts to easily demonstrate all flows:
 
 | Account Role | Email Identifier | Student ID | Password | Context |
 | :--- | :--- | :--- | :--- | :--- |
-| **Admin (Professor)** | `prof@joineazy.edu` | *N/A* | `admin123` | Full access to professor dashboard, assignment creation, and cohort analytics. |
-| **Student 1** | `student1@joineazy.edu` | `STU-001` | `student123` | Owner of "Alpha Squad", has confirmed submission on Final Capstone. |
-| **Student 2** | `student2@joineazy.edu` | `STU-002` | `student123` | Member of "Alpha Squad", has confirmed submission on Final Capstone. |
-| **Student 3** | `student3@joineazy.edu` | `STU-003` | `student123` | Member of "Alpha Squad", has confirmed submission on Final Capstone. |
-| **Student 4** | `student4@joineazy.edu` | `STU-004` | `student123` | Member of "Alpha Squad", **Pending** submission on Final Capstone. |
+| **Admin (Professor)** | `prof.sharma@eduflow.edu` | *N/A* | `admin123` | Prof. Rajesh Sharma — full access to professor dashboard, assignment creation, and cohort analytics. |
+| **Student 1 (Owner)** | `aarav@eduflow.edu` | `2024CS01` | `student123` | Aarav Sharma — Owner of "Alpha Squad", has confirmed submission on Final Capstone. |
+| **Student 2** | `priya@eduflow.edu` | `2024CS02` | `student123` | Priya Patel — Member of "Alpha Squad", has confirmed submission on Final Capstone. |
+| **Student 3** | `rohan@eduflow.edu` | `2024CS03` | `student123` | Rohan Verma — Member of "Alpha Squad", has confirmed submission on Final Capstone. |
+| **Student 4** | `ananya@eduflow.edu` | `2024CS04` | `student123` | Ananya Iyer — Member of "Alpha Squad", **Pending** submission on Final Capstone. |
 
 *Quick login buttons are also provided directly on the Login page for 1-click credential population.*
 

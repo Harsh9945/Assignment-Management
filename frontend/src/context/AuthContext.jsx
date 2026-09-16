@@ -5,10 +5,10 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('joineazy_user');
+    const saved = localStorage.getItem('eduflow_user') || localStorage.getItem('joineazy_user');
     return saved ? JSON.parse(saved) : null;
   });
-  const [token, setToken] = useState(() => localStorage.getItem('joineazy_token'));
+  const [token, setToken] = useState(() => localStorage.getItem('eduflow_token') || localStorage.getItem('joineazy_token'));
   const [activeGroup, setActiveGroup] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
           const res = await client.get('/auth/me');
           setUser(res.data.user);
           setActiveGroup(res.data.activeGroup);
-          localStorage.setItem('joineazy_user', JSON.stringify(res.data.user));
+          localStorage.setItem('eduflow_user', JSON.stringify(res.data.user));
         } catch (err) {
           console.error('Failed to restore session:', err);
           logout();
@@ -35,8 +35,8 @@ export function AuthProvider({ children }) {
     const res = await client.post('/auth/login', { identifier, password });
     const { token: receivedToken, user: receivedUser } = res.data;
 
-    localStorage.setItem('joineazy_token', receivedToken);
-    localStorage.setItem('joineazy_user', JSON.stringify(receivedUser));
+    localStorage.setItem('eduflow_token', receivedToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(receivedUser));
 
     setToken(receivedToken);
     setUser(receivedUser);
@@ -58,8 +58,8 @@ export function AuthProvider({ children }) {
     const res = await client.post('/auth/register', { name, email, studentId, password });
     const { token: receivedToken, user: receivedUser } = res.data;
 
-    localStorage.setItem('joineazy_token', receivedToken);
-    localStorage.setItem('joineazy_user', JSON.stringify(receivedUser));
+    localStorage.setItem('eduflow_token', receivedToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(receivedUser));
 
     setToken(receivedToken);
     setUser(receivedUser);
@@ -69,6 +69,8 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    localStorage.removeItem('eduflow_token');
+    localStorage.removeItem('eduflow_user');
     localStorage.removeItem('joineazy_token');
     localStorage.removeItem('joineazy_user');
     setToken(null);
@@ -82,7 +84,7 @@ export function AuthProvider({ children }) {
       const res = await client.get('/auth/me');
       setUser(res.data.user);
       setActiveGroup(res.data.activeGroup);
-      localStorage.setItem('joineazy_user', JSON.stringify(res.data.user));
+      localStorage.setItem('eduflow_user', JSON.stringify(res.data.user));
     } catch (err) {
       console.error('Failed to refresh user profile:', err);
     }

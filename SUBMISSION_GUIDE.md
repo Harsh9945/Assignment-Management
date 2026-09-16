@@ -1,4 +1,4 @@
-# Joineazy — Final Submission Checklist & Template
+# EduFlow — Final Submission Checklist & Template
 
 **Submission Deadline**: Thursday, 17 September 2026 — 11:30 PM  
 **Submission Channel**: Submit exclusively via the official **Google Form link** provided in your task brief (do NOT submit via email).
@@ -12,7 +12,7 @@ The generated PDF must strictly adhere to the following naming pattern:
 ```text
 FullName-TaskNo.pdf
 ```
-*(Example: `AlexSmith-Task1.pdf` — exact format, no extra spaces or deviation).*
+*(Example: `Harsh-Task1.pdf` — exact format, no extra spaces or deviation).*
 
 ---
 
@@ -21,9 +21,9 @@ FullName-TaskNo.pdf
 Your PDF must contain the three items below (and nothing else is needed):
 
 ```markdown
-Student, Group & Assignment Management System
-Candidate: [Your Full Name]
-Task: Full Stack Intern Technical Task (Joineazy)
+EduFlow — Student, Group & Assignment Management System
+Candidate: Harsh
+Task: Full Stack Intern Technical Task
 
 1. GitHub Repository Link:
    https://github.com/Harsh9945/Assignment-Management
@@ -45,21 +45,21 @@ When recording your demonstration walkthrough on **`http://localhost:3000`**, co
 
 1. **Database & Docker Stack**:
    - Briefly show `docker-compose ps` showing all 3 containers (`joineazy-db`, `joineazy-backend`, `joineazy-frontend`) running and `(healthy)`.
-2. **Student 1 (Alpha Squad Owner)**:
-   - Log in with 1-click button or `student1@joineazy.edu` / `student123`.
-   - Open **"My Group"**: show "Alpha Squad" roster with Alice as Owner, plus Bob, Charlie, Diana.
+2. **Student 1 (Alpha Squad Owner — Aarav Sharma)**:
+   - Log in with 1-click button or `aarav@eduflow.edu` / `student123`.
+   - Open **"My Group"**: show "Alpha Squad" roster with Aarav as Owner, plus Priya, Rohan, and Ananya.
    - Show student search (`GET /api/students/search?q=`) and direct-add capability.
    - Open **"Assignments"**: show `Orientation Essay & Ethics Form` with the red **Past Due** badge.
    - Show `Final Capstone Project` with active status and group progress bar showing **75% (3/4 confirmed)**.
-3. **Student 4 (Pending Submission & Live Update)**:
-   - Log out and log in as `student4@joineazy.edu` / `student123`.
-   - Open `Final Capstone Project`: show Diana's status is **Pending Submission** while the group is at 75%.
+3. **Student 4 (Pending Submission & Live Update — Ananya Iyer)**:
+   - Log out and log in as `ananya@eduflow.edu` / `student123`.
+   - Open `Final Capstone Project`: show Ananya's status is **Pending Submission** while the group is at 75%.
    - Click **"Open OneDrive Link"** (demonstrates `target="_blank" rel="noopener noreferrer"`).
    - Click **"Yes, I have submitted"** → show the **Two-Step Confirmation Modal** appearing.
-   - Click **"Confirm Submission"** → show the modal closing, Diana's status updating to **Confirmed**, and the group progress bar dynamically moving from **75%** to **100% (Completed)**!
+   - Click **"Confirm Submission"** → show the modal closing, Ananya's status updating to **Confirmed**, and the group progress bar dynamically moving from **75%** to **100% (Completed)**!
    - Click "Re-confirm Submission" to demonstrate **idempotency** (no duplicate records, no error).
-4. **Professor / Admin Dashboard**:
-   - Log in as `prof@joineazy.edu` / `admin123`.
+4. **Professor / Admin Dashboard (Prof. Rajesh Sharma)**:
+   - Log in as `prof.sharma@eduflow.edu` / `admin123`.
    - Show the summary KPI cards (Total Students: 4, Groups: 1, Assignments: 2, Completion: 100%).
    - Show the responsive **Recharts bar chart** showing confirmed vs pending distributions.
    - Open **Assignment Progress Detail** for `Final Capstone Project`: show the group breakdown at 100% (4/4 confirmed) and the full student confirmation audit trail with timestamps.

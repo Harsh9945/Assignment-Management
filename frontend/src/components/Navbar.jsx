@@ -49,12 +49,12 @@ export default function Navbar() {
           <div className="flex items-center gap-8">
             <Link to={isAuthenticated ? (user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard') : '/login'} className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-lg shadow-sm">
-                J
+                E
               </div>
               <div>
-                <span className="text-lg font-bold tracking-tight text-slate-900">Joineazy</span>
+                <span className="text-lg font-bold tracking-tight text-slate-900">EduFlow</span>
                 <span className="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                  MVP v2.0
+                  v2.0
                 </span>
               </div>
             </Link>

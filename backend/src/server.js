@@ -8,7 +8,7 @@ async function startServer() {
     await waitAndMigrate();
 
     const server = app.listen(env.PORT, () => {
-      console.log(`[Server] Joineazy Backend running on port ${env.PORT} in ${env.NODE_ENV} mode.`);
+      console.log(`[Server] EduFlow Backend running on port ${env.PORT} in ${env.NODE_ENV} mode.`);
       console.log(`[Server] Health check available at http://localhost:${env.PORT}/api/health`);
     });
 

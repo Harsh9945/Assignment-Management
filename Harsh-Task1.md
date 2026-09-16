@@ -1,6 +1,6 @@
-# Student, Group & Assignment Management System
+# EduFlow — Student, Group & Assignment Management System
 **Candidate**: Harsh  
-**Task**: Joineazy Full Stack Intern Technical Task (Version 2.0 — MVP-Scoped Edition)  
+**Task**: EduFlow Full Stack Intern Technical Task (Version 2.0 — MVP-Scoped Edition)  
 **Submission Date**: 15 September 2026  
 
 ---

@@ -224,7 +224,7 @@ export default function MyGroup() {
           <div className="space-y-4">
             <div className="relative">
               <Input
-                placeholder="Search by student email (e.g. student2@joineazy.edu) or ID (e.g. STU-002)..."
+                placeholder="Search by student email (e.g. priya@eduflow.edu) or ID (e.g. 2024CS02)..."
                 value={searchQuery}
                 onChange={(e) => handleSearchStudents(e.target.value)}
               />

@@ -15,7 +15,7 @@ export default function NotFound() {
       </div>
       <h1 className="text-3xl font-bold text-slate-900 mb-2">404 — Page Not Found</h1>
       <p className="text-slate-600 max-w-md mb-6">
-        The requested URL was not found on the Joineazy system.
+        The requested URL was not found on the EduFlow system.
       </p>
       <Link to={homePath}>
         <Button>Return to Dashboard</Button>

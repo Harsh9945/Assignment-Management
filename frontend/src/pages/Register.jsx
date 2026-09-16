@@ -46,7 +46,7 @@ export default function Register() {
       <div className="max-w-md w-full space-y-6">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-600 text-white font-black text-2xl shadow-md mb-4">
-            J
+            E
           </div>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             Create Student Account
@@ -69,7 +69,7 @@ export default function Register() {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Maya Lin"
+              placeholder="e.g. Aarav Sharma"
               error={fieldErrors.name}
               required
             />
@@ -80,7 +80,7 @@ export default function Register() {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="e.g. maya@joineazy.edu"
+              placeholder="e.g. aarav@eduflow.edu"
               error={fieldErrors.email}
               required
             />
@@ -90,7 +90,7 @@ export default function Register() {
               name="studentId"
               value={studentId}
               onChange={(e) => setStudentId(e.target.value)}
-              placeholder="e.g. STU-099"
+              placeholder="e.g. 2024CS01"
               error={fieldErrors.studentId}
               helperText="Unique identifier assigned by your university"
               required

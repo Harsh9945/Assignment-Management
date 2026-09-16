@@ -18,16 +18,16 @@ async function seed() {
       `INSERT INTO users (name, email, student_id, password_hash, role)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING id`,
-      ['Professor Charles', 'prof@joineazy.edu', null, adminPasswordHash, 'ADMIN']
+      ['Prof. Rajesh Sharma', 'prof.sharma@eduflow.edu', null, adminPasswordHash, 'ADMIN']
     );
     const adminId = adminRes.rows[0].id;
 
     // 2. Create 4 Students
     const studentsData = [
-      { name: 'Alice Smith', email: 'student1@joineazy.edu', studentId: 'STU-001' },
-      { name: 'Bob Jones', email: 'student2@joineazy.edu', studentId: 'STU-002' },
-      { name: 'Charlie Brown', email: 'student3@joineazy.edu', studentId: 'STU-003' },
-      { name: 'Diana Prince', email: 'student4@joineazy.edu', studentId: 'STU-004' }
+      { name: 'Aarav Sharma', email: 'aarav@eduflow.edu', studentId: '2024CS01' },
+      { name: 'Priya Patel', email: 'priya@eduflow.edu', studentId: '2024CS02' },
+      { name: 'Rohan Verma', email: 'rohan@eduflow.edu', studentId: '2024CS03' },
+      { name: 'Ananya Iyer', email: 'ananya@eduflow.edu', studentId: '2024CS04' }
     ];
 
     const studentIds = [];
@@ -41,7 +41,7 @@ async function seed() {
       studentIds.push(res.rows[0].id);
     }
 
-    // 3. Create Group "Alpha Squad" with Alice (Student 1) as owner
+    // 3. Create Group "Alpha Squad" with Aarav (Student 1) as owner
     const groupRes = await client.query(
       `INSERT INTO groups (name, owner_id)
        VALUES ($1, $2)
@@ -113,8 +113,8 @@ async function seed() {
 
     await client.query('COMMIT');
     console.log('[Seed] Database seeded successfully!');
-    console.log('[Seed] Admin: prof@joineazy.edu / admin123');
-    console.log('[Seed] Students: student1@joineazy.edu to student4@joineazy.edu / student123');
+    console.log('[Seed] Admin: prof.sharma@eduflow.edu / admin123');
+    console.log('[Seed] Students: aarav@eduflow.edu to ananya@eduflow.edu / student123');
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('[Seed] Error seeding database:', err);
