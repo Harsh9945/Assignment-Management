@@ -1,13 +1,15 @@
 # EduFlow — Student, Group & Assignment Management System
 
-**Version 2.0 — MVP-Scoped Edition**  
-*Target Stack: React.js (Vite) + Tailwind CSS · Node.js + Express · PostgreSQL 16 · Docker Compose*
+> **Candidate**: Harsh  
+> **Task**: Full Stack Intern Technical Assessment for **Joineazy** (Version 2.0 — MVP-Scoped Edition)  
+> **Repository**: [`Harsh9945/Assignment-Management`](https://github.com/Harsh9945/Assignment-Management)  
+> *Target Stack: React 18 + Tailwind CSS · Node.js 20 + Express · PostgreSQL 16 · Docker Compose*
 
 ---
 
 ## 1. Project Overview & Objective
 
-EduFlow is a full-stack, role-based academic management system designed to streamline student collaboration, assignment tracking, and external coursework submissions. It enforces strict server-side role boundaries between **Students** and **Instructors (Admins)**.
+**EduFlow** is a full-stack, role-based academic management system designed and built specifically for the **Joineazy Full Stack Intern Technical Task (Assignment-Management)**. It streamlines student collaboration, audience-targeted coursework tracking, and external coursework submissions while enforcing strict server-side role boundaries between **Students** and **Instructors (Admins)**.
 
 Key problems solved:
 - **Group Isolation & Collaboration**: Enforces a strict one-active-group-per-student invariant while allowing group owners to search and direct-add peers without cumbersome multi-state invitations (Decision D-1).
@@ -351,3 +353,18 @@ As scoped in SRS Section 12, the following features are intentionally deferred b
 - Microsoft Graph API OAuth file-verification (external upload hosting is assumed).
 - Automated email notification triggers and password reset workflows.
 - Multi-semester course isolation and multiple instructors per assignment.
+
+---
+
+## 12. Submission Deliverables & Artifacts
+
+All paperwork and submission materials required by the brief are cleanly organized in the [`submission/`](./submission/) directory:
+
+- **[`submission/Harsh-Task1.html`](./submission/Harsh-Task1.html) & [`submission/Harsh-Task1.md`](./submission/Harsh-Task1.md)**: Source documents for the official submission PDF (`Harsh-Task1.pdf`) formatted per the `FullName-TaskNo.pdf` naming specification.
+- **[`submission/SUBMISSION_GUIDE.md`](./submission/SUBMISSION_GUIDE.md)**: Detailed recording script, grading criteria matrix, and evaluator checklist.
+
+---
+
+## 13. License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
