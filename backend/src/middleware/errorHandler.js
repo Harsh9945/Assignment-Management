@@ -1,7 +1,9 @@
 const env = require('../config/env');
 
 function errorHandler(err, req, res, next) {
-  console.error('[Error Handler]', err);
+  if (env.NODE_ENV !== 'test') {
+    console.error('[Error Handler]', err);
+  }
 
   const status = err.status || err.statusCode || 500;
   const response = {
