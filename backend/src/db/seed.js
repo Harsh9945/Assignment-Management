@@ -63,7 +63,7 @@ async function seed() {
     const futureDate = new Date();
     futureDate.setDate(futureDate.getDate() + 5);
 
-    const demoOneDriveUrl = process.env.DEMO_ONEDRIVE_URL || 'https://onedrive.live.com';
+    const demoOneDriveUrl = process.env.DEMO_ONEDRIVE_URL || 'https://1drv.ms/f/c/7d64020dedd5564b/IgB9CyqoBLiUS7H5VlvImPiBAcZQBf5_m-h6tRqQgeOqf28?e=V3lbrg';
 
     const assign1Res = await client.query(
       `INSERT INTO assignments (title, description, due_date, onedrive_url, target_type, created_by)
