@@ -15,9 +15,3 @@
 **Demo Video URL**: [https://docs.google.com/videos/d/1YdAss1jBIbQwVyy_F1SqADuhoKc7YiaQC6XdWjaYZp0/play?usp=sharing](https://docs.google.com/videos/d/1YdAss1jBIbQwVyy_F1SqADuhoKc7YiaQC6XdWjaYZp0/play?usp=sharing)  
 *(Video walkthrough demonstrating Docker Compose up, login, past-due badge, two-step confirmation modal, live group progress bar update from 75% to 100%, and professor dashboard analytics)*
 
----
-
-### 3. Live Platform Link (Optional)
-**Live Application**: Docker Compose provided for 1-command evaluation: `http://localhost:3000`  
-*(API endpoint: `http://localhost:5000/api/health`)*
-
