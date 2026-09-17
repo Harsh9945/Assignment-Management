@@ -63,6 +63,8 @@ async function seed() {
     const futureDate = new Date();
     futureDate.setDate(futureDate.getDate() + 5);
 
+    const demoOneDriveUrl = process.env.DEMO_ONEDRIVE_URL || 'https://onedrive.live.com';
+
     const assign1Res = await client.query(
       `INSERT INTO assignments (title, description, due_date, onedrive_url, target_type, created_by)
        VALUES ($1, $2, $3, $4, $5, $6)
@@ -71,7 +73,7 @@ async function seed() {
         'Final Capstone Project',
         'Please submit your final project artifacts and architecture documentation to the designated OneDrive folder.',
         futureDate.toISOString(),
-        'https://onedrive.live.com/redir?resid=SAMPLE_CAPSTONE_FOLDER',
+        demoOneDriveUrl,
         'SPECIFIC_GROUPS',
         adminId
       ]
@@ -105,7 +107,7 @@ async function seed() {
         'Orientation Essay & Ethics Form',
         'Upload signed academic integrity policy and brief introductory essay.',
         pastDate.toISOString(),
-        'https://onedrive.live.com/redir?resid=SAMPLE_ORIENTATION_FOLDER',
+        demoOneDriveUrl,
         'ALL_STUDENTS',
         adminId
       ]
