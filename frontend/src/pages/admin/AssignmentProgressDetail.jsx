@@ -243,13 +243,14 @@ export default function AssignmentProgressDetail() {
               <TableHeader>Student ID</TableHeader>
               <TableHeader>Group</TableHeader>
               <TableHeader>Status</TableHeader>
+              <TableHeader>Confirmed By</TableHeader>
               <TableHeader>Confirmed At</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredStudents.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-6 text-xs text-slate-400">
+                <TableCell colSpan={6} className="text-center py-6 text-xs text-slate-400">
                   No matching student records found.
                 </TableCell>
               </TableRow>
@@ -274,6 +275,11 @@ export default function AssignmentProgressDetail() {
                     ) : (
                       <Badge variant="pending" size="xs">Pending</Badge>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-xs text-slate-700 font-medium">
+                      {s.confirmedBy ? s.confirmedBy : (s.status === 'CONFIRMED' ? 'Self' : '—')}
+                    </span>
                   </TableCell>
                   <TableCell className="text-xs text-slate-500">
                     {s.confirmedAt

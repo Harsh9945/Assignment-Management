@@ -14,8 +14,8 @@ async function getGroupProgress(groupId, assignmentId) {
   return await submissionRepo.getGroupProgressForAssignment(groupId, assignmentId);
 }
 
-async function getAdminAssignmentProgress(assignmentId) {
-  const data = await submissionRepo.getAssignmentProgressForAdmin(assignmentId);
+async function getAdminAssignmentProgress(assignmentId, statusFilter = null) {
+  const data = await submissionRepo.getAssignmentProgressForAdmin(assignmentId, statusFilter);
   if (!data) {
     const error = new Error('Assignment not found');
     error.statusCode = 404;

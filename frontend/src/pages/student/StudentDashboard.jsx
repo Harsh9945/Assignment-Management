@@ -8,6 +8,8 @@ import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
 import { BookOpen, Users, CheckCircle2, Clock, ArrowRight, AlertCircle } from 'lucide-react';
 
+import CourseGrid from './CourseGrid';
+
 export default function StudentDashboard() {
   const { user } = useAuth();
   const [activeGroup, setActiveGroup] = useState(null);
@@ -72,11 +74,22 @@ export default function StudentDashboard() {
           <div className="flex gap-3">
             <Link to="/assignments">
               <Button variant="outline" className="bg-white/10 hover:bg-white/20 text-white border-white/20">
-                View Assignments
+                View All Assignments
               </Button>
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Enrolled Courses Grid Section */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-emerald-600" />
+            Your Enrolled Courses
+          </h2>
+        </div>
+        <CourseGrid />
       </div>
 
       {/* Metrics Row */}

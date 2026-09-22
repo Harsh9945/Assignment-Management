@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Harsh-Round2 Submission</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 40px;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      font-size: 24px;
+    }
+    h2 {
+      color: #334155;
+      margin-top: 24px;
+      font-size: 18px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>EduFlow — Joineazy Task 2 Technical Submission</h1>
+  <p><span class="badge">Candidate: Harsh</span> <span class="badge">Round 2 / Task 2</span></p>
+
+  <div class="box">
+    <h2>1. Deliverable Links</h2>
+    <ul>
+      <li><strong>GitHub Repository</strong>: <a href="https://github.com/Harsh9945/Assignment-Management">https://github.com/Harsh9945/Assignment-Management</a></li>
+      <li><strong>Working Demo Video</strong>: <a href="https://youtu.be/demo-video-link-placeholder">https://youtu.be/demo-video-link-placeholder</a></li>
+      <li><strong>Deployed Platform (Vercel/Netlify)</strong>: <a href="https://joineazy-eduflow.vercel.app">https://joineazy-eduflow.vercel.app</a></li>
+    </ul>
+  </div>
+
+  <h2>2. Implemented Functional Enhancements</h2>
+  <ul>
+    <li><strong>UI/UX Authentication Flow</strong>: JWT-based login and registration with visual validation, loader spinners, and dynamic role redirection.</li>
+    <li><strong>Student & Professor Dashboards</strong>: Responsive grid displaying enrolled courses for students (`/dashboard`) and taught courses with completion analytics for professors (`/admin/dashboard`).</li>
+    <li><strong>Course-Scoped Assignments</strong>: Scoped views (`/courses/:id/assignments`) with `INDIVIDUAL` and `GROUP` assignment badges and status filtering.</li>
+    <li><strong>Leader Confirmation Fan-Out</strong>: For group assignments, leader acknowledgment executes an atomic PostgreSQL transaction updating status for all group members with `confirmed_by` attribution.</li>
+    <li><strong>Progress Visualization & Micro-Animations</strong>: CSS width transitions, completion checkmark animations, and status badges.</li>
+    <li><strong>Database & Backend Architecture</strong>: Relational schema supporting `courses`, `course_enrollments`, `submission_type`, and transactional group logic in Express & Node.js.</li>
+  </ul>
+</body>
+</html>

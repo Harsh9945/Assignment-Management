@@ -8,6 +8,7 @@
     "dev": "nodemon src/server.js",
     "migrate": "node src/db/migrate.js",
     "seed": "node src/db/seed.js",
+    "seed:v3": "node src/db/seed_v3.js",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:acceptance": "jest tests/acceptance.test.js --runInBand --detectOpenHandles --forceExit"
   },

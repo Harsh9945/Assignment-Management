@@ -10,6 +10,9 @@ import Register from './pages/Register';
 import Forbidden from './pages/Forbidden';
 import NotFound from './pages/NotFound';
 
+import CourseAssignments from './pages/student/CourseAssignments';
+import CourseManagement from './pages/admin/CourseManagement';
+
 // Student pages
 import StudentDashboard from './pages/student/StudentDashboard';
 import MyGroup from './pages/student/MyGroup';
@@ -63,6 +66,7 @@ export default function App() {
               {/* Student Routes */}
               <Route element={<ProtectedRoute allowedRoles={['STUDENT']} />}>
                 <Route path="/dashboard" element={<StudentDashboard />} />
+                <Route path="/courses/:courseId/assignments" element={<CourseAssignments />} />
                 <Route path="/my-group" element={<MyGroup />} />
                 <Route path="/assignments" element={<AssignmentList />} />
                 <Route path="/assignments/:id" element={<AssignmentDetail />} />
@@ -72,6 +76,7 @@ export default function App() {
               <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
                 <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/courses" element={<CourseManagement />} />
                 <Route path="/admin/assignments" element={<AdminAssignmentList />} />
                 <Route path="/admin/assignments/new" element={<CreateEditAssignment />} />
                 <Route path="/admin/assignments/:id/edit" element={<CreateEditAssignment />} />

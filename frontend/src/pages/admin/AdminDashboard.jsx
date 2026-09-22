@@ -68,7 +68,12 @@ export default function AdminDashboard() {
           </p>
         </div>
 
-        <div>
+        <div className="flex items-center gap-3">
+          <Link to="/admin/courses">
+            <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50 gap-2">
+              <FolderKanban className="w-4 h-4" /> Manage Courses
+            </Button>
+          </Link>
           <Link to="/admin/assignments/new">
             <Button className="bg-purple-600 hover:bg-purple-700 text-white shadow-sm gap-2">
               <PlusCircle className="w-4 h-4" /> Create Assignment

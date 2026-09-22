@@ -35,6 +35,7 @@ export default function Navbar() {
 
   const adminNavItems = [
     { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+    { label: 'Courses', path: '/admin/courses', icon: FolderKanban },
     { label: 'All Assignments', path: '/admin/assignments', icon: FileCheck },
     { label: 'Create Assignment', path: '/admin/assignments/new', icon: PlusCircle }
   ];
@@ -54,7 +55,7 @@ export default function Navbar() {
               <div>
                 <span className="text-lg font-bold tracking-tight text-slate-900">EduFlow</span>
                 <span className="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                  v2.0
+                  v3.0
                 </span>
               </div>
             </Link>

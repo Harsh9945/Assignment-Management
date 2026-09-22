@@ -49,13 +49,15 @@ const addMemberSchema = z.object({
 });
 
 const createAssignmentSchema = z.object({
+  courseId: z.string().uuid().optional().nullable(),
   title: z.string().trim().min(1, 'Title is required').max(255),
   description: z.string().trim().min(1, 'Description is required'),
   dueDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Due date must be a valid date/time'
   }),
   onedriveUrl: z.string().trim().url('OneDrive link must be a valid URL'),
-  targetType: z.enum(['ALL_STUDENTS', 'SPECIFIC_GROUPS']),
+  submissionType: z.enum(['INDIVIDUAL', 'GROUP']).default('INDIVIDUAL'),
+  targetType: z.enum(['ALL_STUDENTS', 'SPECIFIC_GROUPS']).default('ALL_STUDENTS'),
   groupIds: z.array(z.string().uuid()).optional()
 }).refine((data) => {
   if (data.targetType === 'SPECIFIC_GROUPS') {
@@ -68,12 +70,14 @@ const createAssignmentSchema = z.object({
 });
 
 const updateAssignmentSchema = z.object({
+  courseId: z.string().uuid().optional().nullable(),
   title: z.string().trim().min(1).max(255).optional(),
   description: z.string().trim().min(1).optional(),
   dueDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Due date must be a valid date/time'
   }).optional(),
   onedriveUrl: z.string().trim().url('OneDrive link must be a valid URL').optional(),
+  submissionType: z.enum(['INDIVIDUAL', 'GROUP']).optional(),
   targetType: z.enum(['ALL_STUDENTS', 'SPECIFIC_GROUPS']).optional(),
   groupIds: z.array(z.string().uuid()).optional()
 }).refine((data) => {

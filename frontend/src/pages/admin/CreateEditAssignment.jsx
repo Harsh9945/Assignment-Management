@@ -4,20 +4,23 @@ import client from '../../api/client';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { ArrowLeft, Save, Users, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Save, Users, AlertCircle, BookOpen, UserCheck } from 'lucide-react';
 
 export default function CreateEditAssignment() {
   const { id } = useParams();
   const isEditing = Boolean(id);
   const navigate = useNavigate();
 
+  const [courseId, setCourseId] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [onedriveUrl, setOnedriveUrl] = useState('');
+  const [submissionType, setSubmissionType] = useState('INDIVIDUAL'); // 'INDIVIDUAL' | 'GROUP'
   const [targetType, setTargetType] = useState('ALL_STUDENTS'); // 'ALL_STUDENTS' | 'SPECIFIC_GROUPS'
   const [selectedGroupIds, setSelectedGroupIds] = useState([]);
 
+  const [allCourses, setAllCourses] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
@@ -27,12 +30,22 @@ export default function CreateEditAssignment() {
   useEffect(() => {
     async function loadData() {
       try {
-        const groupsRes = await client.get('/admin/groups');
+        const [groupsRes, coursesRes] = await Promise.all([
+          client.get('/admin/groups'),
+          client.get('/courses')
+        ]);
         setAllGroups(groupsRes.data.groups || []);
+        const coursesList = coursesRes.data.courses || [];
+        setAllCourses(coursesList);
+
+        if (coursesList.length > 0 && !courseId) {
+          setCourseId(coursesList[0].id);
+        }
 
         if (isEditing) {
           const assignRes = await client.get(`/assignments/${id}`);
           const assign = assignRes.data.assignment;
+          setCourseId(assign.course_id || assign.courseId || '');
           setTitle(assign.title);
           setDescription(assign.description);
 
@@ -44,6 +57,7 @@ export default function CreateEditAssignment() {
           setDueDate(localIso);
 
           setOnedriveUrl(assign.onedrive_url || assign.onedriveUrl);
+          setSubmissionType(assign.submission_type || assign.submissionType || 'INDIVIDUAL');
           setTargetType(assign.target_type || assign.targetType);
 
           const gIds = (assign.target_groups || assign.targetGroups || []).map((g) => g.id);
@@ -71,7 +85,6 @@ export default function CreateEditAssignment() {
     setError('');
     setFieldErrors({});
 
-    // Basic frontend checks matching Zod
     if (targetType === 'SPECIFIC_GROUPS' && selectedGroupIds.length === 0) {
       setError('Please select at least one group when targeting specific groups.');
       return;
@@ -80,10 +93,12 @@ export default function CreateEditAssignment() {
     setSaving(true);
     try {
       const payload = {
+        courseId: courseId || null,
         title: title.trim(),
         description: description.trim(),
         dueDate: new Date(dueDate).toISOString(),
         onedriveUrl: onedriveUrl.trim(),
+        submissionType,
         targetType,
         groupIds: targetType === 'SPECIFIC_GROUPS' ? selectedGroupIds : []
       };
@@ -134,7 +149,7 @@ export default function CreateEditAssignment() {
             {isEditing ? 'Edit Assignment' : 'Create New Assignment'}
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            Configure assignment details, external submission link, and target student audience
+            Configure assignment course association, submission type, external OneDrive link, and audience scope
           </p>
         </div>
       </div>
@@ -148,6 +163,26 @@ export default function CreateEditAssignment() {
 
       <Card>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Associated Course Selector */}
+          <div>
+            <label className="block text-sm font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+              <BookOpen className="w-4 h-4 text-purple-600" />
+              Associated Course
+            </label>
+            <select
+              value={courseId}
+              onChange={(e) => setCourseId(e.target.value)}
+              className="w-full px-3 py-2.5 border border-slate-300 rounded-xl shadow-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm bg-white"
+            >
+              <option value="">-- No Specific Course (Global Assignment) --</option>
+              {allCourses.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.code} — {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <Input
             label="Assignment Title"
             value={title}
@@ -196,6 +231,60 @@ export default function CreateEditAssignment() {
             />
           </div>
 
+          {/* Submission Type Selector (INDIVIDUAL vs GROUP) */}
+          <div className="pt-4 border-t border-slate-100 space-y-3">
+            <label className="block text-sm font-bold text-slate-900">
+              Submission Mode (Individual vs Group Leader)
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label
+                className={`flex items-start p-4 rounded-xl border cursor-pointer transition-all ${
+                  submissionType === 'INDIVIDUAL'
+                    ? 'border-blue-600 bg-blue-50/50 ring-2 ring-blue-500/20'
+                    : 'border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="submissionType"
+                  value="INDIVIDUAL"
+                  checked={submissionType === 'INDIVIDUAL'}
+                  onChange={() => setSubmissionType('INDIVIDUAL')}
+                  className="mt-1 text-blue-600 focus:ring-blue-500"
+                />
+                <div className="ml-3">
+                  <div className="text-sm font-semibold text-slate-900">👤 Individual Submission</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Each student confirms their own submission independently.
+                  </div>
+                </div>
+              </label>
+
+              <label
+                className={`flex items-start p-4 rounded-xl border cursor-pointer transition-all ${
+                  submissionType === 'GROUP'
+                    ? 'border-purple-600 bg-purple-50/50 ring-2 ring-purple-500/20'
+                    : 'border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="submissionType"
+                  value="GROUP"
+                  checked={submissionType === 'GROUP'}
+                  onChange={() => setSubmissionType('GROUP')}
+                  className="mt-1 text-purple-600 focus:ring-purple-500"
+                />
+                <div className="ml-3">
+                  <div className="text-sm font-semibold text-slate-900">👥 Group Submission (Leader Confirms)</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Only group leader can acknowledge submission; automatically confirms for all team members.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
           {/* Targeting Scope (FR-04.3) */}
           <div className="pt-4 border-t border-slate-100 space-y-4">
             <div>
@@ -203,7 +292,7 @@ export default function CreateEditAssignment() {
                 Target Audience Scope
               </label>
               <p className="text-xs text-slate-500">
-                Choose whether this assignment is visible to the entire cohort or restricted to specific groups.
+                Choose whether this assignment is visible to all students in the course or restricted to specific groups.
               </p>
             </div>
 
@@ -224,9 +313,9 @@ export default function CreateEditAssignment() {
                   className="mt-1 text-purple-600 focus:ring-purple-500"
                 />
                 <div className="ml-3">
-                  <div className="text-sm font-semibold text-slate-900">All Students</div>
+                  <div className="text-sm font-semibold text-slate-900">All Enrolled Students</div>
                   <div className="text-xs text-slate-500 mt-0.5">
-                    Visible to every registered student regardless of group membership.
+                    Visible to every student enrolled in the course.
                   </div>
                 </div>
               </label>

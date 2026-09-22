@@ -12,6 +12,17 @@ async function waitAndMigrate(retries = 15, delayMs = 2000) {
         const schemaPath = path.join(__dirname, 'schema.sql');
         const schemaSql = fs.readFileSync(schemaPath, 'utf8');
         await client.query(schemaSql);
+
+        const migrationsDir = path.join(__dirname, 'migrations');
+        if (fs.existsSync(migrationsDir)) {
+          const files = fs.readdirSync(migrationsDir).filter((f) => f.endsWith('.sql')).sort();
+          for (const file of files) {
+            console.log(`[Migration] Running migration ${file}...`);
+            const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+            await client.query(sql);
+          }
+        }
+
         console.log('[Migration] Schema migration completed successfully.');
         return;
       } finally {

@@ -3,7 +3,7 @@ const groupRepo = require('../repositories/groupRepo');
 
 async function getAssignmentProgress(req, res, next) {
   try {
-    const data = await progressService.getAdminAssignmentProgress(req.params.id);
+    const data = await progressService.getAdminAssignmentProgress(req.params.id, req.query.status);
     res.status(200).json(data);
   } catch (err) {
     next(err);

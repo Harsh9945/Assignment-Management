@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import client from '../../api/client';
 import Card from '../../components/Card';
 import Badge from '../../components/Badge';
@@ -15,25 +16,32 @@ import {
   AlertTriangle,
   UploadCloud,
   FileCheck2,
-  Users
+  Users,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function AssignmentDetail() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [assignment, setAssignment] = useState(null);
+  const [activeGroup, setActiveGroup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Two-step confirmation modal state (FR-06.1)
+  // Two-step confirmation modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState('');
 
-  const fetchAssignment = async () => {
+  const fetchAssignmentData = async () => {
     try {
       setLoading(true);
-      const res = await client.get(`/assignments/${id}`);
-      setAssignment(res.data.assignment);
+      const [assignRes, groupRes] = await Promise.all([
+        client.get(`/assignments/${id}`),
+        client.get('/groups/me').catch(() => ({ data: { group: null } }))
+      ]);
+      setAssignment(assignRes.data.assignment);
+      setActiveGroup(groupRes.data.group);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load assignment');
     } finally {
@@ -42,7 +50,7 @@ export default function AssignmentDetail() {
   };
 
   useEffect(() => {
-    fetchAssignment();
+    fetchAssignmentData();
   }, [id]);
 
   const handleConfirmSubmission = async () => {
@@ -51,12 +59,12 @@ export default function AssignmentDetail() {
     setError('');
 
     try {
-      await client.post(`/assignments/${id}/confirm-submission`, {
+      const res = await client.post(`/assignments/${id}/confirm-submission`, {
         confirm: true
       });
-      setSubmitSuccess('Your submission confirmation has been recorded successfully!');
+      setSubmitSuccess(res.data.message || 'Submission confirmation recorded successfully!');
       setIsModalOpen(false);
-      await fetchAssignment();
+      await fetchAssignmentData();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to confirm submission');
     } finally {
@@ -93,6 +101,10 @@ export default function AssignmentDetail() {
 
   const pastDue = isPastDue(assignment.dueDate);
   const isConfirmed = assignment.mySubmission?.status === 'CONFIRMED';
+  const isGroupAssignment = assignment.submissionType === 'GROUP';
+  const isGroupLeader = activeGroup && activeGroup.ownerId === user?.id;
+  const isUnassignedInGroupAssignment = isGroupAssignment && !activeGroup;
+  
   const formattedDueDate = new Date(assignment.dueDate).toLocaleString(undefined, {
     dateStyle: 'full',
     timeStyle: 'short'
@@ -100,7 +112,7 @@ export default function AssignmentDetail() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      {/* Top back navigation */}
+      {/* Back link */}
       <div>
         <Link
           to="/assignments"
@@ -112,9 +124,25 @@ export default function AssignmentDetail() {
       </div>
 
       {submitSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-medium flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-medium flex items-center gap-2 animate-in fade-in duration-300">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
           {submitSuccess}
+        </div>
+      )}
+
+      {/* Warning for unassigned students on group assignments */}
+      {isUnassignedInGroupAssignment && (
+        <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-start gap-4 shadow-sm">
+          <ShieldAlert className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="text-sm font-bold">Group Membership Required</h4>
+            <p className="text-xs text-amber-800 mt-1 leading-relaxed">
+              This is a <strong>Group Assignment</strong>. You are currently not part of any group. Please join or create a group to unlock submission confirmation.
+            </p>
+            <Link to="/my-group" className="inline-block mt-3 px-4 py-1.5 bg-amber-600 text-white rounded-lg text-xs font-bold hover:bg-amber-700 transition">
+              Manage Group →
+            </Link>
+          </div>
         </div>
       )}
 
@@ -123,11 +151,14 @@ export default function AssignmentDetail() {
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant={assignment.targetType === 'ALL_STUDENTS' ? 'active' : 'neutral'} size="sm">
-                {assignment.targetType === 'ALL_STUDENTS' ? 'Target: All Students' : 'Target: Specific Groups'}
-              </Badge>
+              <span className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                isGroupAssignment
+                  ? 'bg-purple-100 text-purple-800 border border-purple-200'
+                  : 'bg-blue-100 text-blue-800 border border-blue-200'
+              }`}>
+                {isGroupAssignment ? '👥 Group Assignment' : '👤 Individual Assignment'}
+              </span>
 
-              {/* FR-05.3: Past-Due visual badge */}
               {pastDue ? (
                 <Badge variant="overdue" size="sm" className="gap-1 font-bold">
                   <AlertTriangle className="w-3.5 h-3.5" /> Past Due
@@ -151,13 +182,13 @@ export default function AssignmentDetail() {
             </div>
           </div>
 
-          {/* Individual Status Pill */}
+          {/* Submission Status Pill */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 sm:text-right flex-shrink-0">
             <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-              Your Status
+              Submission Status
             </div>
             {isConfirmed ? (
-              <Badge variant="confirmed" size="md" className="gap-1.5">
+              <Badge variant="confirmed" size="md" className="gap-1.5 animate-in zoom-in duration-200">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Confirmed
               </Badge>
             ) : (
@@ -165,9 +196,9 @@ export default function AssignmentDetail() {
                 <Clock className="w-4 h-4 text-amber-600" /> Pending
               </Badge>
             )}
-            {isConfirmed && assignment.mySubmission?.confirmedAt && (
-              <div className="text-[11px] text-slate-400 mt-1">
-                Recorded {new Date(assignment.mySubmission.confirmedAt).toLocaleDateString()}
+            {isConfirmed && assignment.mySubmission?.confirmedBy && (
+              <div className="text-[11px] text-slate-500 mt-1">
+                Confirmed by: <strong className="text-slate-700">{assignment.mySubmission.confirmedBy}</strong>
               </div>
             )}
           </div>
@@ -189,10 +220,10 @@ export default function AssignmentDetail() {
             <div>
               <h3 className="text-sm font-bold text-sky-950 flex items-center gap-1.5">
                 <UploadCloud className="w-4 h-4 text-sky-600" />
-                Step 1: Upload Your Files on OneDrive
+                Step 1: Upload Files to OneDrive
               </h3>
               <p className="text-xs text-sky-800 mt-1 max-w-xl leading-normal">
-                Files are hosted externally. Open the course folder, submit your document or project artifacts, then return here to record your confirmation.
+                Files are hosted externally. Open the designated folder, upload your work, and return here to complete confirmation.
               </p>
             </div>
 
@@ -208,39 +239,57 @@ export default function AssignmentDetail() {
           </div>
         </div>
 
-        {/* Step 2: Submission Confirmation Section */}
+        {/* Step 2: Confirmation Control Section */}
         <div className="pt-4 border-t border-slate-100">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-slate-200 bg-white">
             <div>
               <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
                 <FileCheck2 className="w-4 h-4 text-emerald-600" />
-                Step 2: Submission Confirmation
+                Step 2: Submission Acknowledgment
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                {isConfirmed
-                  ? 'You have already confirmed your submission. You can re-confirm at any time idempotently.'
-                  : 'Once you have uploaded your files to OneDrive, confirm your submission to update your progress.'}
+                {isGroupAssignment
+                  ? isGroupLeader
+                    ? 'As the Group Leader, your acknowledgment confirms submission for all members of your group.'
+                    : `Only your group leader (${activeGroup?.ownerName || 'Leader'}) can acknowledge submission for your team.`
+                  : 'Confirm your individual submission once files are uploaded.'}
               </p>
             </div>
 
             <div>
-              <Button
-                variant={isConfirmed ? 'outline' : 'primary'}
-                size="md"
-                onClick={() => setIsModalOpen(true)}
-              >
-                {isConfirmed ? 'Re-confirm Submission' : 'Yes, I have submitted'}
-              </Button>
+              {isGroupAssignment && !isGroupLeader ? (
+                <button
+                  disabled
+                  className="px-4 py-2.5 bg-slate-100 text-slate-400 cursor-not-allowed rounded-xl text-xs font-bold border border-slate-200 flex items-center gap-2"
+                >
+                  🔒 Leader Confirmation Only
+                </button>
+              ) : isUnassignedInGroupAssignment ? (
+                <button
+                  disabled
+                  className="px-4 py-2.5 bg-slate-100 text-slate-400 cursor-not-allowed rounded-xl text-xs font-bold border border-slate-200"
+                >
+                  Group Required
+                </button>
+              ) : (
+                <Button
+                  variant={isConfirmed ? 'outline' : 'primary'}
+                  size="md"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  {isConfirmed ? 'Re-confirm Submission' : 'Confirm Submission'}
+                </Button>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Group Progress Section */}
+        {/* Group Collaboration Breakdown */}
         {assignment.groupProgress && (
           <div className="pt-4 border-t border-slate-100 space-y-4">
             <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
               <Users className="w-4 h-4 text-emerald-600" />
-              Group Collaboration Progress
+              Team Submission Status
             </h3>
 
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
@@ -254,7 +303,7 @@ export default function AssignmentDetail() {
             {assignment.groupProgress.members && (
               <div className="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
                 <div className="bg-slate-50/80 px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Member Submission Status
+                  Member Status
                 </div>
                 {assignment.groupProgress.members.map((member) => (
                   <div key={member.studentId} className="px-4 py-2.5 flex items-center justify-between text-xs">
@@ -264,7 +313,9 @@ export default function AssignmentDetail() {
                     </div>
                     <div>
                       {member.status === 'CONFIRMED' ? (
-                        <Badge variant="confirmed" size="xs">Confirmed</Badge>
+                        <Badge variant="confirmed" size="xs">
+                          Confirmed {member.confirmedBy ? `(by ${member.confirmedBy})` : ''}
+                        </Badge>
                       ) : (
                         <Badge variant="pending" size="xs">Pending</Badge>
                       )}
@@ -277,11 +328,11 @@ export default function AssignmentDetail() {
         )}
       </Card>
 
-      {/* Two-step Confirmation Modal (FR-06.1) */}
+      {/* Two-step Confirmation Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Confirm Your Assignment Submission"
+        title={isGroupAssignment ? "Confirm Group Submission (Leader Action)" : "Confirm Your Individual Submission"}
         footer={
           <>
             <Button
@@ -297,21 +348,23 @@ export default function AssignmentDetail() {
               onClick={handleConfirmSubmission}
               loading={submitting}
             >
-              Confirm Submission
+              {isGroupAssignment ? "Confirm for Entire Group" : "Confirm Submission"}
             </Button>
           </>
         }
       >
         <div className="space-y-3 text-sm text-slate-600">
           <p>
-            Please verify that you have successfully uploaded your coursework to the provided OneDrive folder:
+            Please verify that your coursework has been uploaded to the OneDrive folder:
           </p>
           <div className="p-3 bg-slate-50 rounded-lg text-xs font-mono text-slate-700 break-all border border-slate-200">
             {assignment.onedriveUrl}
           </div>
-          <p className="text-xs text-slate-500 italic">
-            Note: Clicking <strong>"Confirm Submission"</strong> will record your official submission timestamp in the database and update your team's completion percentage.
-          </p>
+          {isGroupAssignment && (
+            <div className="p-3 bg-purple-50 text-purple-900 rounded-xl text-xs border border-purple-200">
+              ⚡ <strong>Group Leader Action</strong>: Confirming this assignment will instantly mark status as <strong>Confirmed</strong> for all active members in your group!
+            </div>
+          )}
         </div>
       </Modal>
     </div>
