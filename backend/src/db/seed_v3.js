@@ -151,12 +151,7 @@ async function seedV3() {
     );
     const assign2Id = assign2Res.rows[0].id;
 
-    // Seed 2 submissions for Assignment 2
-    await client.query(
-      `INSERT INTO submissions (assignment_id, student_id, confirmed_by, status)
-       VALUES ($1, $2, $3, 'CONFIRMED')`,
-      [assign2Id, studentIds[0], studentIds[0]]
-    );
+    // Seed 1 submission for Assignment 2 (Priya Patel submitted, Aarav Sharma pending for live demo submission)
     await client.query(
       `INSERT INTO submissions (assignment_id, student_id, confirmed_by, status)
        VALUES ($1, $2, $3, 'CONFIRMED')`,
