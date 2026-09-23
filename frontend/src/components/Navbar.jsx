@@ -8,6 +8,7 @@ import {
   Users,
   LayoutDashboard,
   FileCheck,
+  FolderKanban,
   PlusCircle,
   LogOut,
   Menu,
