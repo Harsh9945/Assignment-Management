@@ -92,7 +92,6 @@ def build_pdf():
     links_data = [
         [Paragraph("<b>GitHub Repository:</b>", body_style), Paragraph('<a href="https://github.com/Harsh9945/Assignment-Management">https://github.com/Harsh9945/Assignment-Management</a>', link_style)],
         [Paragraph("<b>Working Demo Video:</b>", body_style), Paragraph('<a href="https://drive.google.com/file/d/1MUETm5Hbiiz2wKYXwgF7FsGbTxGtxeT3/view?usp=sharing">https://drive.google.com/file/d/1MUETm5Hbiiz2wKYXwgF7FsGbTxGtxeT3/view?usp=sharing</a>', link_style)],
-        [Paragraph("<b>Deployed Platform URL:</b>", body_style), Paragraph('<a href="https://joineazy-eduflow.vercel.app">https://joineazy-eduflow.vercel.app</a>', link_style)],
     ]
 
     link_table = Table(links_data, colWidths=[150, 380])
