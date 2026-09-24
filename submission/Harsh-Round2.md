@@ -10,7 +10,7 @@
 ## 1. Submission Links
 
 - **GitHub Repository**: [https://github.com/Harsh9945/Assignment-Management](https://github.com/Harsh9945/Assignment-Management)
-- **Working Demo Video**: [https://youtu.be/demo-video-link-placeholder](https://youtu.be/demo-video-link-placeholder) *(Replace with actual video link if uploaded)*
+- **Working Demo Video**: [https://drive.google.com/file/d/1MUETm5Hbiiz2wKYXwgF7FsGbTxGtxeT3/view?usp=sharing](https://drive.google.com/file/d/1MUETm5Hbiiz2wKYXwgF7FsGbTxGtxeT3/view?usp=sharing)
 - **Deployed Platform URL**: [https://joineazy-eduflow.vercel.app](https://joineazy-eduflow.vercel.app)
 
 ---
